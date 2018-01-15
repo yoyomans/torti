@@ -1,15 +1,14 @@
 <template>
   <div class="wrapped">
-    <button class="button">Enter</button>
+    <button class="button" @click="test">Enter</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  methods: {
+    test: function () {
+      console.log('in here!')
     }
   }
 }
