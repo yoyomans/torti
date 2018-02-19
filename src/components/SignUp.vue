@@ -5,12 +5,11 @@
 
         <div class="loginForm">
 
-          <h1><span class="fa fa-sign-in"></span> Login</h1>
+          <h1><span class="fa fa-sign-in"></span> Sign up</h1>
 
           <!-- show any messages that come back with authentication -->
-
-          <!-- LOGIN FORM -->
-          <form action="localhost:3000/login" method="post">
+          <!-- SIGNUP  FORM -->
+          <form action="localhost:3000/signup" method="post">
             <div class="form-group">
               <label>Username</label>
               <input type="text" class="form-control" name="name" v-model="name">
@@ -20,13 +19,13 @@
               <input type="password" class="form-control" name="password" v-model="password">
             </div>
 
-            <button type="submit" class="btn btn-warning btn-lg" @click="login">Login</button>
+            <button type="submit" class="btn btn-warning btn-lg" @click="signup">Submit</button>
           </form>
 
           <hr>
 
-          <p>Need an account? <a @click="goToSignUp">Signup</a></p>
-          <p>Or go <a href="/">home</a>.</p>
+          <!--<p>Need an account? <a href="/signup">Signup</a></p>-->
+          <!--<p>Or go <a href="/">home</a>.</p>-->
           </div>
       </div>
   </div>
@@ -44,34 +43,24 @@ export default {
         'displayError': false
       }
     },
-    mounted: function () {
-      let myStorage = window.localStorage
-      myStorage.removeItem('token')
-    },
     methods: {
-      login: function () {
+      signup: function () {
         let self = this
           //     let hashedPassword = passwordHash.generate(self.password)
 
-        axios.post('http://localhost:3000/login', {
+        axios.post('http://localhost:3000/signup', {
           name: self.name,
           password: self.password
         })
               .then(function (response) {
                 console.log(response)
-                let myStorage = window.localStorage
-                myStorage.setItem('token', response.data.token)
-                self.$router.push({name: 'Home', params: { username: self.name }})
+                // self.$router.push({name: 'Home', params: { username: self.name }})
               })
               .catch(function (error) {
                 console.log(error)
               })
 
           // e.preventDefault()
-      },
-      goToSignUp: function () {
-        let self = this
-        self.$router.push({name: 'SignUp'})
       }
     }      // this.$router.push({name: 'Home', params: { username: this.username }})
 }
