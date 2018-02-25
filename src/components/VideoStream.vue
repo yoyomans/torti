@@ -15,8 +15,8 @@
             <p style="font-size: 20pt;"><b>32c</b></p>
         </vue-circle>
         <line-graph :options="{responsive: false, maintainAspectRatio: false}" :width="400" :height="200"></line-graph>
-        <button class="btn btn-primary" id="show-modal" @click="showModal = true">Update weight</button>
-        <modal  v-if="showModal" @close="showModal = false"></modal>
+        <button class="btn btn-primary" id="show-modal" @click="showHide">Update weight</button>
+        <modal  v-if="modalState"></modal>
         <div class="videoPlayer">
             <h3>Tort Cam 1</h3>
             <div v-if="displayStream">
@@ -40,6 +40,7 @@
     import VueCircle from 'vue2-circle-progress'
     import LineGraph from './LineGraph.vue'
     import Modal from './VueModal.vue'
+    import { mapGetters, mapActions } from 'vuex'
 //    import tplink from 'tplink-cloud-api'
 
     export default {
@@ -62,6 +63,9 @@
       mounted: function () {
       },
       computed: {
+        ...mapGetters({
+          modalState: 'modalState'
+        }),
         getStreamURL: function () {
           let self = this
 
@@ -71,6 +75,9 @@
         }
       },
       methods: {
+        ...mapActions({
+          showHide: 'showHide'
+        }),
         turnCameraOff: function () {
           var self = this
           axios.get(self.tortiURL + ':8000/cameraOff')

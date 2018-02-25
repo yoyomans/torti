@@ -25,7 +25,7 @@
 
                     <div class="modal-footer">
                         <slot name="footer">
-                            <button class="btn btn-danger btn-sm" @click="$emit('close')">
+                            <button class="btn btn-danger btn-sm" @click="showHide">
                                 Cancel
                             </button>
                         </slot>
@@ -39,6 +39,7 @@
 <script>
     import moment from 'moment'
     import axios from 'axios'
+    import { mapActions } from 'vuex'
     export default {
       data: function () {
         return {
@@ -47,6 +48,9 @@
         }
       },
       methods: {
+        ...mapActions({
+          showHide: 'showHide'
+        }),
         updateWeight: function () {
           let self = this
           axios.post('http://localhost:3000/updateWeight', {
@@ -55,7 +59,9 @@
           })
                   .then(function (response) {
                     console.log(response)
-                    self.$parent.$emit('close')
+                    self.$store.dispatch('showHide')
+                    self.$store.dispatch('updateChartData')
+                    self.$socket.emit('test')
                     console.log('does this work')
                   })
                   .catch(function (error) {
