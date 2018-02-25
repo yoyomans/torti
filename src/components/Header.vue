@@ -10,6 +10,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"><span class="glyphicon glyphicon-user"></span> Welcome {{ username }}</a></li>
+                    <li><a href="#" @click="logout">Logout</a></li>
                 </ul>
             </div>
         </nav>
@@ -21,6 +22,13 @@
       props: ['username'],
       data: function () {
         return {
+        }
+      },
+      methods: {
+        logout: function () {
+          let myStorage = window.localStorage
+          myStorage.removeItem('token')
+          this.$router.push({name: 'Login'})
         }
       }
     }
