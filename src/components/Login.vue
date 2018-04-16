@@ -2,7 +2,7 @@
   <div>
 
       <div class="container">
-
+        <div class="loginContainer">
         <div class="loginForm">
 
           <h1><span class="fa fa-sign-in"></span> Login</h1>
@@ -28,6 +28,7 @@
           <p>Need an account? <a @click="goToSignUp">Signup</a></p>
           <p>Or go <a href="/">home</a>.</p>
           </div>
+      </div>
       </div>
   </div>
 </template>
@@ -61,10 +62,14 @@ export default {
                 console.log(response)
                 let myStorage = window.localStorage
                 myStorage.setItem('token', response.data.token)
+                myStorage.setItem('userFirstLogin', response.data.user.firstLogin)
+                myStorage.setItem('userId', response.data.user.id)
                 self.$router.push({name: 'Home', params: { username: self.name }})
+                self.$notify({group: 'app', title: 'Signed in', text: 'Welcome ' + self.name})
               })
               .catch(function (error) {
                 console.log(error)
+                self.$notify({group: 'auth', type: 'error', title: 'Denied', text: 'Wrong username or password, please try again!'})
               })
 
           // e.preventDefault()
@@ -85,6 +90,7 @@ export default {
   background-color: white;
   margin: 0 auto;
   padding: 20px;
+  opacity: 0.9;
 }
 .errorMsg {
   position: absolute;
@@ -93,6 +99,10 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
+}
+.loginContainer {
+    margin: 0 auto;
+    padding: 10%;
 }
 
 

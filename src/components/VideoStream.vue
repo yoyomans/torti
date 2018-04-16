@@ -14,9 +14,13 @@
                 :show-percent="false">
             <p style="font-size: 20pt;"><b>32c</b></p>
         </vue-circle>
-        <line-graph :options="{responsive: false, maintainAspectRatio: false}" :width="400" :height="200"></line-graph>
+        <hr>
+        <atom-spinner v-if="!loadedGraph" :size="60" :color="'#ff1d5e'"></atom-spinner>
+        <line-graph v-if="loadedGraph" :options="{responsive: false, maintainAspectRatio: false}" :width="400" :height="200"></line-graph>
         <button class="btn btn-primary" id="show-modal" @click="showHide">Update weight</button>
+        <hr>
         <modal  v-if="modalState"></modal>
+        <welcome-modal v-if="hideWelcomeModal"></welcome-modal>
         <div class="videoPlayer">
             <h3>Tort Cam 1</h3>
             <div v-if="displayStream">
@@ -40,14 +44,18 @@
     import VueCircle from 'vue2-circle-progress'
     import LineGraph from './LineGraph.vue'
     import Modal from './VueModal.vue'
+    import WelcomeModal from './WelcomeModal.vue'
     import { mapGetters, mapActions } from 'vuex'
+    import { AtomSpinner } from 'epic-spinners'
 //    import tplink from 'tplink-cloud-api'
 
     export default {
       components: {
         VueCircle,
         LineGraph,
-        Modal
+        Modal,
+        AtomSpinner,
+        WelcomeModal
       },
       data: function () {
         return {
@@ -61,10 +69,14 @@
         }
       },
       mounted: function () {
+        this.$store.dispatch('updateChartData')
       },
       computed: {
         ...mapGetters({
-          modalState: 'modalState'
+          modalState: 'modalState',
+          loadedGraph: 'loadedGraph',
+          hideWelcomeModal: 'hideWelcomeModal'
+
         }),
         getStreamURL: function () {
           let self = this
@@ -76,7 +88,8 @@
       },
       methods: {
         ...mapActions({
-          showHide: 'showHide'
+          showHide: 'showHide',
+          hideWelcomeModal: 'hideWelcomeModal'
         }),
         turnCameraOff: function () {
           var self = this
@@ -91,7 +104,7 @@
         },
         turnCameraOn: function () {
           var self = this
-          axios.get(self.tortiURL + ':8000/camera')
+          axios.get('http://localhost:3000/camera')
                 .then(function (response) {
                   console.log(response)
                   setTimeout(function () {

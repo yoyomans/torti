@@ -7,6 +7,7 @@ import BootstrapVue from 'bootstrap-vue'
 import store from './store/index'
 import VueSocketio from 'vue-socket.io'
 import socketio from 'socket.io-client'
+import Notifications from 'vue-notification'
 // import axios from 'axios'
 
 Vue.config.productionTip = false
@@ -14,6 +15,8 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 
 Vue.use(VueSocketio, socketio('http://localhost:3000'))
+
+Vue.use(Notifications)
 
 /* eslint-disable no-new */
 new Vue({

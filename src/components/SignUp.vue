@@ -14,6 +14,12 @@
               <label>Username</label>
               <input type="text" class="form-control" name="name" v-model="name">
             </div>
+
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" class="form-control" name="email" v-model="email">
+            </div>
+
             <div class="form-group">
               <label>Password</label>
               <input type="password" class="form-control" name="password" v-model="password">
@@ -40,6 +46,7 @@ export default {
       return {
         'password': '',
         'name': '',
+        'email': '',
         'displayError': false
       }
     },
@@ -50,10 +57,26 @@ export default {
 
         axios.post('http://localhost:3000/signup', {
           name: self.name,
-          password: self.password
+          password: self.password,
+          email: self.email
         })
               .then(function (response) {
                 console.log(response)
+                axios.post('http://localhost:3000/login', {
+                  name: self.name,
+                  password: self.password
+                })
+                    .then(function (response) {
+                      console.log(response)
+                      let myStorage = window.localStorage
+                      myStorage.setItem('token', response.data.token)
+                      self.$router.push({name: 'Home', params: { username: self.name }})
+                      self.$notify({group: 'app', title: 'Signed in', text: 'Welcome ' + self.name})
+                    })
+                    .catch(function (error) {
+                      console.log(error)
+                      self.$notify({group: 'auth', type: 'error', title: 'Denied', text: 'Wrong username or password, please try again!'})
+                    })
                 // self.$router.push({name: 'Home', params: { username: self.name }})
               })
               .catch(function (error) {

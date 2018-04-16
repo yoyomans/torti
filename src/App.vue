@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <notifications group="auth" position="top center"/>
+    <notifications group="app" position="bottom center"/>
     <keep-alive>
       <router-view/>
     </keep-alive>
@@ -20,7 +22,6 @@ body {
 body::after {
   background: url(./assets/tort.jpg) no-repeat center center fixed;
   content: "";
-  opacity: 0.5;
   position: absolute;
   top: 0;
   bottom: 0;

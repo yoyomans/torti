@@ -22,7 +22,7 @@
       return {
       }
     },
-    created: function () {
+    mounted: function () {
 //      let self = this
 //      let myStorgae = window.localStorage
 //      console.log(myStorgae.getItem('token'))
@@ -37,6 +37,13 @@
 //            console.log('tes', error)
 //            self.$router.push({name: 'Login'})
 //          })
+    },
+    sockets: {
+      mist: function () {
+        console.log('this was fired from the server')
+        let self = this
+        self.$notify({group: 'app', title: 'Important message', text: 'event from server'})
+      }
     }
   }
 </script>
