@@ -28,6 +28,8 @@
         logout: function () {
           let myStorage = window.localStorage
           myStorage.removeItem('token')
+          myStorage.removeItem('userFirstLogin')
+          myStorage.removeItem('userId')
           this.$router.push({name: 'Login'})
         }
       }

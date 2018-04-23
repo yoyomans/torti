@@ -15,11 +15,16 @@
             <p style="font-size: 20pt;"><b>32c</b></p>
         </vue-circle>
         <hr>
-        <atom-spinner v-if="!loadedGraph" :size="60" :color="'#ff1d5e'"></atom-spinner>
-        <line-graph v-if="loadedGraph" :options="{responsive: false, maintainAspectRatio: false}" :width="400" :height="200"></line-graph>
-        <button class="btn btn-primary" id="show-modal" @click="showHide">Update weight</button>
-        <hr>
-        <modal  v-if="modalState"></modal>
+        <button type="button" class="btn btn-default btn-sm" @click="showAddPetDiv">
+            <span class="glyphicon glyphicon-plus"></span> Add Pet
+        </button>
+        <add-pet v-if="showAddPet"></add-pet>
+        <pet-info v-if="showPet"></pet-info>
+        <!--<atom-spinner v-if="!loadedGraph" :size="60" :color="'#ff1d5e'"></atom-spinner>-->
+        <!--<line-graph v-if="loadedGraph" :options="{responsive: false, maintainAspectRatio: false}" :width="400" :height="200"></line-graph>-->
+        <!--<button class="btn btn-primary" id="show-modal" @click="showHide">Update weight</button>-->
+        <!--<hr>-->
+        <!--<modal  v-if="modalState"></modal>-->
         <welcome-modal v-if="hideWelcomeModal"></welcome-modal>
         <div class="videoPlayer">
             <h3>Tort Cam 1</h3>
@@ -47,6 +52,8 @@
     import WelcomeModal from './WelcomeModal.vue'
     import { mapGetters, mapActions } from 'vuex'
     import { AtomSpinner } from 'epic-spinners'
+    import PetInfo from './PetInfo.vue'
+    import AddPet from './AddPetForm.vue'
 //    import tplink from 'tplink-cloud-api'
 
     export default {
@@ -55,7 +62,9 @@
         LineGraph,
         Modal,
         AtomSpinner,
-        WelcomeModal
+        WelcomeModal,
+        PetInfo,
+        AddPet
       },
       data: function () {
         return {
@@ -65,11 +74,14 @@
           'fill': {
             'gradient': ['green']
           },
-          showModal: false
+          showModal: false,
+          showPet: true,
+          showAddPet: false
         }
       },
       mounted: function () {
         this.$store.dispatch('updateChartData')
+        this.$store.dispatch('hideWelcomeModal')
       },
       computed: {
         ...mapGetters({
@@ -114,6 +126,10 @@
                 .catch(function (error) {
                   console.log(error)
                 })
+        },
+        showAddPetDiv: function () {
+          var self = this
+          self.showAddPet = !self.showAddPet
         }
       }
     }

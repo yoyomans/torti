@@ -70,7 +70,11 @@ export default {
                       console.log(response)
                       let myStorage = window.localStorage
                       myStorage.setItem('token', response.data.token)
+                      myStorage.setItem('userFirstLogin', response.data.user.firstLogin)
+                      myStorage.setItem('userId', response.data.user.id)
                       self.$router.push({name: 'Home', params: { username: self.name }})
+                      console.log('firs login', myStorage.getItem('userFirstLogin'))
+                      console.log('user id', myStorage.getItem('userId'))
                       self.$notify({group: 'app', title: 'Signed in', text: 'Welcome ' + self.name})
                     })
                     .catch(function (error) {
