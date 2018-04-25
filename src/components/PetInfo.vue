@@ -41,6 +41,18 @@
       },
       mounted: function () {
         this.$store.dispatch('updateChartData')
+        let myStorage = window.localStorage
+        axios.get('http://localhost:3000/getPets', {
+          params: {
+            ownerId: myStorage.getItem('userId')
+          }
+        })
+            .then(function (response) {
+              console.log(response)
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
       },
       computed: {
         ...mapGetters({

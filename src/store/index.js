@@ -13,7 +13,8 @@ const state = {
     labels: [],
     datasets: [{'label': '', 'backgroundColor': '', 'data': []}]
   },
-  graphLoaded: false
+  graphLoaded: false,
+  petsData: {}
 }
 
 const mutations = {
