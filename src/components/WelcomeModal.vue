@@ -57,7 +57,7 @@
         updateWeight: function () {
           let self = this
           let myStorage = window.localStorage
-          axios.post('http://localhost:3000/completeRegistration', {
+          axios.post('http://torti.ddns.net:2000/completeRegistration', {
             petName: self.petName,
             date: self.date,
             petAge: self.petAge,

@@ -8,15 +8,23 @@ import store from './store/index'
 import VueSocketio from 'vue-socket.io'
 import socketio from 'socket.io-client'
 import Notifications from 'vue-notification'
+import VueScrollTo from 'vue-scrollto'
+import Vuesax from 'vuesax'
+
+import 'vuesax/dist/vuesax.css' // vuesax styles
 // import axios from 'axios'
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 
-Vue.use(VueSocketio, socketio('http://localhost:3000'))
+Vue.use(VueSocketio, socketio('http://torti.ddns.net:2000'))
 
 Vue.use(Notifications)
+
+Vue.use(VueScrollTo)
+
+Vue.use(Vuesax)
 
 /* eslint-disable no-new */
 new Vue({

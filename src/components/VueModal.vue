@@ -12,7 +12,7 @@
 
                     <div class="modal-body">
                         <slot name="body">
-                                <form action="localhost:3000/updateWeight" method="post">
+                                <form action="torti.ddns.net:2000/updateWeight" method="post">
                                 <div class="form-group">
                                     <label>Weight</label>
                                     <input type="number" min="0" class="form-control" name="weight" v-model="weight">
@@ -53,7 +53,7 @@
         }),
         updateWeight: function () {
           let self = this
-          axios.post('http://localhost:3000/updateWeight', {
+          axios.post('http://torti.ddns.net:2000/updateWeight', {
             weight: self.weight,
             date: self.date
           })

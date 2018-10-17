@@ -9,7 +9,7 @@
 
           <!-- show any messages that come back with authentication -->
           <!-- SIGNUP  FORM -->
-          <form action="localhost:3000/signup" method="post">
+          <form action="torti.ddns.net:2000/signup" method="post">
             <div class="form-group">
               <label>Username</label>
               <input type="text" class="form-control" name="name" v-model="name">
@@ -55,14 +55,14 @@ export default {
         let self = this
           //     let hashedPassword = passwordHash.generate(self.password)
 
-        axios.post('http://localhost:3000/signup', {
+        axios.post('http://torti.ddns.net:2000/signup', {
           name: self.name,
           password: self.password,
           email: self.email
         })
               .then(function (response) {
                 console.log(response)
-                axios.post('http://localhost:3000/login', {
+                axios.post('http://torti.ddns.net:2000/login', {
                   name: self.name,
                   password: self.password
                 })

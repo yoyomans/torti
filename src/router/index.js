@@ -27,9 +27,7 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         console.log('Entering this!!')
         let myStorgae = window.localStorage
-        console.log(myStorgae.getItem('token'))
-        console.log(myStorgae.getItem('userFirstLogin'))
-        axios.get('http://localhost:3000/secret', {headers: {
+        axios.get('http://torti.ddns.net:2000/secret', {headers: {
           'Authorization': 'JWT ' + myStorgae.getItem('token') // TODO store this token in lcoal store
         }
         })

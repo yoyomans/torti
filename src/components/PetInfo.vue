@@ -42,7 +42,7 @@
       mounted: function () {
         this.$store.dispatch('updateChartData')
         let myStorage = window.localStorage
-        axios.get('http://localhost:3000/getPets', {
+        axios.get('http://torti.ddns.net:2000/getPets', {
           params: {
             ownerId: myStorage.getItem('userId')
           }
@@ -84,7 +84,7 @@
         },
         turnCameraOn: function () {
           var self = this
-          axios.get('http://localhost:3000/camera')
+          axios.get('http://torti.ddns.net:2000/camera')
               .then(function (response) {
                 console.log(response)
                 setTimeout(function () {

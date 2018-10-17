@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="dashboard">
         <vue-circle
-                :progress="32"
+                :progress="currentTemp"
                 :size="100"
                 :reverse="true"
                 line-cap="round"
@@ -11,10 +11,14 @@
                 :start-angle="0"
                 insert-mode="append"
                 :thickness="5"
+                ref="myUniqueID"
                 :show-percent="false">
-            <p style="font-size: 20pt;"><b>32c</b></p>
+            <p style="font-size: 20pt;"><b>{{ currentTemp }}C</b></p>
         </vue-circle>
         <hr>
+        <button type="button" class="btn btn-default btn-sm" @click="syncTpLink">Sync TP Link Device</button>
+        <login-tp-link v-if="loginTP"></login-tp-link>
+        <devices v-if="displayDevices"></devices>
         <button type="button" class="btn btn-default btn-sm" @click="showAddPetDiv">
             <span class="glyphicon glyphicon-plus"></span> Add Pet
         </button>
@@ -54,6 +58,8 @@
     import { AtomSpinner } from 'epic-spinners'
     import PetInfo from './PetInfo.vue'
     import AddPet from './AddPetForm.vue'
+    import LoginTpLink from './LoginTPLink.vue'
+    import Devices from './FoundDevices.vue'
 //    import tplink from 'tplink-cloud-api'
 
     export default {
@@ -64,13 +70,16 @@
         AtomSpinner,
         WelcomeModal,
         PetInfo,
-        AddPet
+        AddPet,
+        LoginTpLink,
+        Devices
       },
       data: function () {
         return {
           'displayStream': false,
           'tortiURL': 'http://torti.ddns.net',
           'streamURL': '',
+          'currentTemp': 0,
           'fill': {
             'gradient': ['green']
           },
@@ -82,11 +91,14 @@
       mounted: function () {
         this.$store.dispatch('updateChartData')
         this.$store.dispatch('hideWelcomeModal')
+        this.$socket.emit('getTemp')
       },
       computed: {
         ...mapGetters({
           modalState: 'modalState',
           loadedGraph: 'loadedGraph',
+          loginTP: 'loginTP',
+          displayDevices: 'displayDevices',
           hideWelcomeModal: 'hideWelcomeModal'
 
         }),
@@ -98,10 +110,21 @@
           return self.streamURL
         }
       },
+      sockets: {
+        gotTemp: function (data) {
+          // console.log('this was fired from the server', data)
+          let self = this
+          self.currentTemp = parseFloat(data.sensor1.temp)
+          self.$refs.myUniqueID.updateProgress(self.currentTemp)
+          // self.$notify({group: 'app', title: 'Important message', text: data.sensor1.temp})
+        }
+      },
       methods: {
         ...mapActions({
           showHide: 'showHide',
-          hideWelcomeModal: 'hideWelcomeModal'
+          hideWelcomeModal: 'hideWelcomeModal',
+          loginTP: 'loginTP',
+          displayDevices: 'displayDevices'
         }),
         turnCameraOff: function () {
           var self = this
@@ -116,7 +139,7 @@
         },
         turnCameraOn: function () {
           var self = this
-          axios.get('http://localhost:3000/camera')
+          axios.get('http://torti.ddns.net:2000/camera')
                 .then(function (response) {
                   console.log(response)
                   setTimeout(function () {
@@ -130,6 +153,9 @@
         showAddPetDiv: function () {
           var self = this
           self.showAddPet = !self.showAddPet
+        },
+        syncTpLink: function () {
+          this.$store.dispatch('loginTP')
         }
       }
     }
@@ -138,5 +164,8 @@
 <style scoped>
     .videoPlayer {
         padding-bottom: 50px;
+    }
+    .dashboard {
+        padding-top: 20px;
     }
 </style>

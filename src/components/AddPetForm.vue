@@ -31,7 +31,7 @@
           console.log('adding pet')
           let self = this
           let myStorage = window.localStorage
-          axios.post('http://localhost:3000/addPetDetails', {
+          axios.post('http://torti.ddns.net:2000/addPetDetails', {
             petName: self.petsName,
             date: self.date,
             petAge: self.petsAge,

@@ -1,16 +1,16 @@
 <template>
   <div>
-
+      <login-header></login-header>
       <div class="container">
         <div class="loginContainer">
-        <div class="loginForm">
+        <div id="login" class="loginForm">
 
           <h1><span class="fa fa-sign-in"></span> Login</h1>
 
           <!-- show any messages that come back with authentication -->
 
           <!-- LOGIN FORM -->
-          <form action="localhost:3000/login" method="post">
+          <form action="torti.ddns.net:2000/login" method="post">
             <div class="form-group">
               <label>Username</label>
               <input type="text" class="form-control" name="name" v-model="name">
@@ -30,14 +30,24 @@
           </div>
       </div>
       </div>
+    <about-us></about-us>
+    <features></features>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import loginHeader from './LoginHeader.vue'
+  import aboutUs from './AboutUs.vue'
+  import features from './Features.vue'
 //  import passwordHash from 'password-hash'
 
 export default {
+    components: {
+      loginHeader,
+      aboutUs,
+      features
+    },
     data: function () {
       return {
         'password': '',
@@ -54,7 +64,7 @@ export default {
         let self = this
           //     let hashedPassword = passwordHash.generate(self.password)
 
-        axios.post('http://localhost:3000/login', {
+        axios.post('http://torti.ddns.net:2000/login', {
           name: self.name,
           password: self.password
         })
@@ -105,5 +115,9 @@ export default {
     padding: 10%;
 }
 
+  .container {
+    background-color: #0e0b16;
+    width: 100%;
+  }
 
 </style>

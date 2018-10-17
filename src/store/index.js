@@ -14,7 +14,10 @@ const state = {
     datasets: [{'label': '', 'backgroundColor': '', 'data': []}]
   },
   graphLoaded: false,
-  petsData: {}
+  petsData: {},
+  loginTPLink: false,
+  devices: [],
+  showDevices: false
 }
 
 const mutations = {
@@ -24,9 +27,15 @@ const mutations = {
   hideWelcomeModal (state) {
     state.hideWelcomeModal = !state.hideWelcomeModal
   },
+  loginTP (state) {
+    state.loginTPLink = !state.loginTPLink
+  },
+  displayDevices (state) {
+    state.showDevices = !state.showDevices
+  },
   getChartData (state) {
     console.log('GETTING CHART DATA')
-    axios.get('http://localhost:3000/chartData')
+    axios.get('http://torti.ddns.net:2000/chartData')
         .then(function (response) {
           console.log(response.data.labels.length)
           state.chartData.labels = response.data.labels
@@ -44,13 +53,17 @@ const mutations = {
 const getters = {
   modalState: state => state.showModal,
   chartData: state => state.chartData,
+  loginTP: state => state.loginTPLink,
+  displayDevices: state => state.showDevices,
   loadedGraph: state => state.graphLoaded,
   hideWelcomeModal: state => state.hideWelcomeModal
 }
 
 const actions = {
   showHide: ({ commit }) => commit('showHide'),
+  loginTP: ({ commit }) => commit('loginTP'),
   updateChartData: ({ commit }) => commit('getChartData'),
+  displayDevices: ({ commit }) => commit('displayDevices'),
   hideWelcomeModal: ({ commit }) => commit('hideWelcomeModal')
 }
 
